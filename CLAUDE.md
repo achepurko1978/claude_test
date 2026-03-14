@@ -54,6 +54,8 @@ UIGen is a Next.js 15 app (App Router) where users chat with Claude to generate 
 
 Only add comments where the logic isn't self-evident. Don't annotate what the code already says clearly.
 
+Use extremely pedantic coding patterns.
+
 ### Data Models (Prisma / SQLite)
 
 The database schema is defined in `prisma/schema.prisma` — reference it anytime you need to understand the structure of data stored in the database.
