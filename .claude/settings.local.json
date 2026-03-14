@@ -1,8 +1,15 @@
 {
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  },
   "permissions": {
     "allow": [
       "Bash(find:*)",
-      "Bash(npx vitest:*)"
+      "Bash(npx vitest:*)",
+      "mcp__playwright__*"
     ]
   }
 }
