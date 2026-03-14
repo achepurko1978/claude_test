@@ -28,7 +28,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Project Setup
         run: |
           npm run setup
@@ -47,6 +54,14 @@ jobs:
             db with the 'sqlite3' cli. If needed, use the mcp__playwright
             set of tools to launch a browser and interact with the app.
 
+            When fixing a GitHub issue:
+            1. Create a new branch named fix/issue-<issue_number>-<short-slug>.
+            2. Implement the fix, run `npm test` to verify, and commit the changes.
+            3. Push the branch with `git push origin <branch>`.
+            4. Open a pull request using `gh pr create` with a title and body that
+               reference the issue (e.g. "Fixes #<issue_number>").
+            5. Post a comment on the issue with a link to the newly created PR.
+
           mcp_config: |
             {
               "mcpServers": {
@@ -61,7 +76,10 @@ jobs:
               }
             }
 
-          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,mcp__playwright__browser_navigate,mcp__playwright__browser_type,mcp__playwright__browser_screenshot"
+          allowed_tools: "Bash(npm:*),Bash(git:*),Bash(gh:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,mcp__playwright__browser_navigate,mcp__playwright__browser_type,mcp__playwright__browser_screenshot"
+
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
           # prompt: 'Update the pull request description to include a summary of changes.'
