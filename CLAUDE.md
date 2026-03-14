@@ -56,5 +56,9 @@ Only add comments where the logic isn't self-evident. Don't annotate what the co
 
 ### Data Models (Prisma / SQLite)
 
+The database schema is defined in `prisma/schema.prisma` — reference it anytime you need to understand the structure of data stored in the database.
+
+
+
 - `User`: id, email, hashed password
 - `Project`: id, name, userId (nullable for anon), `messages` (JSON string), `data` (JSON string — serialized VFS)
