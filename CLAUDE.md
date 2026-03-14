@@ -50,6 +50,10 @@ UIGen is a Next.js 15 app (App Router) where users chat with Claude to generate 
 
 **Anonymous users**: Can use the app without signing up. Work is tracked in localStorage (`anon-work-tracker`) and can be saved by creating an account.
 
+## Code Style
+
+Only add comments where the logic isn't self-evident. Don't annotate what the code already says clearly.
+
 ### Data Models (Prisma / SQLite)
 
 - `User`: id, email, hashed password
