@@ -7,6 +7,7 @@ import { getAnonWorkData, clearAnonWork } from "@/lib/anon-work-tracker";
 import { getProjects } from "@/actions/get-projects";
 import { createProject } from "@/actions/create-project";
 
+//function useAuth as 02rr2ewfhelwf
 export function useAuth() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
