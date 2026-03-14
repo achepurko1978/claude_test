@@ -5,6 +5,8 @@ import {
   useContext,
   ReactNode,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import { useChat as useAIChat } from "@ai-sdk/react";
 import { Message } from "ai";
@@ -21,6 +23,7 @@ interface ChatContextType {
   input: string;
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  setInput: Dispatch<SetStateAction<string>>;
   status: string;
 }
 
@@ -38,6 +41,7 @@ export function ChatProvider({
     input,
     handleInputChange,
     handleSubmit,
+    setInput,
     status,
   } = useAIChat({
     api: "/api/chat",
@@ -65,6 +69,7 @@ export function ChatProvider({
         input,
         handleInputChange,
         handleSubmit,
+        setInput,
         status,
       }}
     >

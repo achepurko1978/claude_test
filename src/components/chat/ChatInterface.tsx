@@ -1,14 +1,36 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { MessageList } from "./MessageList";
 import { MessageInput } from "./MessageInput";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "@/lib/contexts/chat-context";
+import { usePromptHistory } from "@/lib/hooks/use-prompt-history";
 
 export function ChatInterface() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const { messages, input, handleInputChange, handleSubmit, status } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, setInput, status } =
+    useChat();
+  const { pushToHistory, navigateHistory, resetCursor } = usePromptHistory();
+
+  const handleHistoryNavigate = useCallback(
+    (direction: "up" | "down"): void => {
+      const next = navigateHistory(direction, input);
+      if (next !== null) {
+        setInput(next);
+      }
+    },
+    [navigateHistory, input, setInput],
+  );
+
+  const handleSubmitWithHistory = useCallback(
+    (e: React.FormEvent<HTMLFormElement>): void => {
+      pushToHistory(input);
+      resetCursor();
+      handleSubmit(e);
+    },
+    [input, pushToHistory, resetCursor, handleSubmit],
+  );
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -33,8 +55,10 @@ export function ChatInterface() {
         <MessageInput
           input={input}
           handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
+          handleSubmit={handleSubmitWithHistory}
           isLoading={status === "submitted" || status === "streaming"}
+          onHistoryNavigate={handleHistoryNavigate}
+          onResetHistoryCursor={resetCursor}
         />
       </div>
     </div>

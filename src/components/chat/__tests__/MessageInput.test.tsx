@@ -13,10 +13,12 @@ test("renders with placeholder text", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByPlaceholderText("Describe the React component you want to create...");
   expect(textarea).toBeDefined();
 });
@@ -27,10 +29,12 @@ test("displays the input value", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByDisplayValue("Test input value");
   expect(textarea).toBeDefined();
 });
@@ -42,13 +46,15 @@ test("calls handleInputChange when typing", async () => {
     handleInputChange,
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByPlaceholderText("Describe the React component you want to create...");
   await userEvent.type(textarea, "Hello");
-  
+
   expect(handleInputChange).toHaveBeenCalled();
 });
 
@@ -59,13 +65,15 @@ test("calls handleSubmit when form is submitted", async () => {
     handleInputChange: vi.fn(),
     handleSubmit,
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const form = screen.getByRole("textbox").closest("form")!;
   fireEvent.submit(form);
-  
+
   expect(handleSubmit).toHaveBeenCalledOnce();
 });
 
@@ -76,13 +84,15 @@ test("submits form when Enter is pressed without shift", async () => {
     handleInputChange: vi.fn(),
     handleSubmit,
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByRole("textbox");
   fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
-  
+
   expect(handleSubmit).toHaveBeenCalledOnce();
 });
 
@@ -93,13 +103,15 @@ test("does not submit form when Enter is pressed with shift", async () => {
     handleInputChange: vi.fn(),
     handleSubmit,
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByRole("textbox");
   fireEvent.keyDown(textarea, { key: "Enter", shiftKey: true });
-  
+
   expect(handleSubmit).not.toHaveBeenCalled();
 });
 
@@ -109,10 +121,12 @@ test("disables textarea when isLoading is true", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: true,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByRole("textbox");
   expect(textarea).toHaveProperty("disabled", true);
 });
@@ -123,10 +137,12 @@ test("disables submit button when isLoading is true", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: true,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const submitButton = screen.getByRole("button");
   expect(submitButton).toHaveProperty("disabled", true);
 });
@@ -137,10 +153,12 @@ test("disables submit button when input is empty", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const submitButton = screen.getByRole("button");
   expect(submitButton).toHaveProperty("disabled", true);
 });
@@ -151,10 +169,12 @@ test("disables submit button when input contains only whitespace", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const submitButton = screen.getByRole("button");
   expect(submitButton).toHaveProperty("disabled", true);
 });
@@ -165,10 +185,12 @@ test("enables submit button when input has content and not loading", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const submitButton = screen.getByRole("button");
   expect(submitButton).toHaveProperty("disabled", false);
 });
@@ -180,6 +202,8 @@ test("applies correct CSS classes based on loading state", () => {
       handleInputChange={vi.fn()}
       handleSubmit={vi.fn()}
       isLoading={false}
+      onHistoryNavigate={vi.fn()}
+      onResetHistoryCursor={vi.fn()}
     />
   );
 
@@ -193,6 +217,8 @@ test("applies correct CSS classes based on loading state", () => {
       handleInputChange={vi.fn()}
       handleSubmit={vi.fn()}
       isLoading={true}
+      onHistoryNavigate={vi.fn()}
+      onResetHistoryCursor={vi.fn()}
     />
   );
 
@@ -208,6 +234,8 @@ test("applies pulse animation to send icon when loading", () => {
       handleInputChange={vi.fn()}
       handleSubmit={vi.fn()}
       isLoading={false}
+      onHistoryNavigate={vi.fn()}
+      onResetHistoryCursor={vi.fn()}
     />
   );
 
@@ -220,6 +248,8 @@ test("applies pulse animation to send icon when loading", () => {
       handleInputChange={vi.fn()}
       handleSubmit={vi.fn()}
       isLoading={true}
+      onHistoryNavigate={vi.fn()}
+      onResetHistoryCursor={vi.fn()}
     />
   );
 
@@ -233,10 +263,12 @@ test("textarea has correct styling classes", () => {
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const textarea = screen.getByRole("textbox");
   expect(textarea.className).toContain("min-h-[80px]");
   expect(textarea.className).toContain("max-h-[200px]");
@@ -252,12 +284,92 @@ test("submit button click triggers form submission", async () => {
     handleInputChange: vi.fn(),
     handleSubmit,
     isLoading: false,
+    onHistoryNavigate: vi.fn(),
+    onResetHistoryCursor: vi.fn(),
   };
 
   render(<MessageInput {...mockProps} />);
-  
+
   const submitButton = screen.getByRole("button");
   await userEvent.click(submitButton);
-  
+
   expect(handleSubmit).toHaveBeenCalledOnce();
+});
+
+test("ArrowUp at position 0 calls onHistoryNavigate('up')", () => {
+  const onHistoryNavigate = vi.fn();
+  render(
+    <MessageInput
+      input=""
+      handleInputChange={vi.fn()}
+      handleSubmit={vi.fn()}
+      isLoading={false}
+      onHistoryNavigate={onHistoryNavigate}
+      onResetHistoryCursor={vi.fn()}
+    />,
+  );
+
+  const textarea = screen.getByRole("textbox");
+  fireEvent.keyDown(textarea, { key: "ArrowUp" });
+
+  expect(onHistoryNavigate).toHaveBeenCalledWith("up");
+});
+
+test("ArrowDown at end of text calls onHistoryNavigate('down')", () => {
+  const onHistoryNavigate = vi.fn();
+  render(
+    <MessageInput
+      input="test"
+      handleInputChange={vi.fn()}
+      handleSubmit={vi.fn()}
+      isLoading={false}
+      onHistoryNavigate={onHistoryNavigate}
+      onResetHistoryCursor={vi.fn()}
+    />,
+  );
+
+  const textarea = screen.getByRole("textbox") as HTMLTextAreaElement;
+  textarea.setSelectionRange(4, 4); // move cursor to end of "test"
+  fireEvent.keyDown(textarea, { key: "ArrowDown" });
+
+  expect(onHistoryNavigate).toHaveBeenCalledWith("down");
+});
+
+test("ArrowUp not at position 0 does not call onHistoryNavigate", () => {
+  const onHistoryNavigate = vi.fn();
+  render(
+    <MessageInput
+      input="some text"
+      handleInputChange={vi.fn()}
+      handleSubmit={vi.fn()}
+      isLoading={false}
+      onHistoryNavigate={onHistoryNavigate}
+      onResetHistoryCursor={vi.fn()}
+    />,
+  );
+
+  const textarea = screen.getByRole("textbox") as HTMLTextAreaElement;
+  textarea.setSelectionRange(5, 5); // cursor in the middle
+  fireEvent.keyDown(textarea, { key: "ArrowUp" });
+
+  expect(onHistoryNavigate).not.toHaveBeenCalled();
+});
+
+test("typing calls onResetHistoryCursor", async () => {
+  const onResetHistoryCursor = vi.fn();
+  render(
+    <MessageInput
+      input=""
+      handleInputChange={vi.fn()}
+      handleSubmit={vi.fn()}
+      isLoading={false}
+      onHistoryNavigate={vi.fn()}
+      onResetHistoryCursor={onResetHistoryCursor}
+    />,
+  );
+
+  const textarea = screen.getByRole("textbox");
+  await userEvent.type(textarea, "a");
+
+  expect(onResetHistoryCursor).toHaveBeenCalled();
 });
